@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Issuers Portal - Sign in</title>
+    <title>Issuer Portal - Sign in</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.cdnfonts.com/css/rubik" rel="stylesheet">
   </head>
@@ -36,54 +36,46 @@
       background: #EFEEFF;
     }
 
-    @media only screen and (max-width: 600px) {
-      .left {
-        display: none;
-      }
+    .right {
+      flex: 50%;
+      display: flex;
+      flex-direction: column;
     }
 
     .left-content {
       display: block;
     }
 
-    .right {
-      flex: 50%;
-      display: flex;
-      flex-direction: column;
-      margin: 0;
-    }
-
     .right-content {
-      width: 100%;
       flex: 1;
     }
 
     .right-footer {
-      width: 100%;
       padding: 10px 0;
       border-top: 1px solid #DDDAFF;
       font-weight: 400;
       font-size: 14px;
       line-height: 17px;
-      text-align: center;
       color: #5E58A5;
       background-color: #fff;
     }
 
     .login-form-container {
+      max-width: 380px;
       margin-left: auto;
       margin-right: auto;
-      max-width: 375px;
     }
 
     .waiting-magic-link-container {
-      padding: 50px;
-      text-align: center;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 50px;
     }
 
     /* Form */
     .header-logo {
-      margin: 5px 0 60px 0;
+      margin: 80px 0 55px 0;
     }
 
     .title {
@@ -94,7 +86,7 @@
     }
 
     .enter-email {
-      margin: 16px 0 23px 0;
+      margin: 16px 0 24px 0;
       font-weight: 400;
       font-size: 16px;
       line-height: 20px;
@@ -111,14 +103,12 @@
       background: #FFFFFF;
       border: 1px solid #8381FF;
       border-radius: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 4px;
       padding: 8px 12px;
     }
 
     .textbox:focus-visible {
-      border: 0;
-      outline-color: unset;
-      box-shadow: 0px 0px 0px 4px #eac9f8;
+      outline: 3px solid #eac9f8;
     }
 
     .textbox::placeholder {
@@ -130,6 +120,38 @@
     }
     .textbox::-ms-input-placeholder { /* Microsoft Edge */
       color: #ACBED4;
+    }
+
+    .error {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      font-size: 14px;
+      line-height: 17px;
+      color: #E96980;
+      margin-bottom: 4px;
+    }
+
+    .error-border {
+      border: 1px solid #E96980;
+    }
+
+    .error-text {
+      margin-left: 4px;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 16px;
+
+      background: #E5F8FF;
+      border: 1px solid #C2E6F5;
+      box-sizing: border-box;
+      border-radius: 16px;
+      margin-top: 4px;
     }
 
     .divider {
@@ -148,7 +170,7 @@
 
     .first-time-info {
       color: #473E6B;
-      margin: 24px 0 50px 0;
+      margin: 40px 0 50px 0;
       font-weight: 400;
       font-size: 14px;
       line-height: 16px;
@@ -158,16 +180,18 @@
       color: #FFFFFF;
       background: #968CFF;
       box-shadow: 0px 5px 0px #5E58A5;
+      margin-top: 16px;
     }
 
     .button-social {
       color: #5E58A5;
       background: #FFFFFF;
+      margin-bottom: 20px;
       box-shadow: 0px 5px 0px #D9D6FF;
     }
 
     .login-google-social {
-      margin-top: 31px;
+      margin-top: 40px;
     }
 
     .terms-and-conditions {
@@ -215,6 +239,10 @@
       color: #7C72E2;
     }
 
+    .logo-container {
+      margin: 88px 0 60px 0;
+    }
+
     .back-to-login-button-text {
       margin-left: 19px
     }
@@ -223,13 +251,44 @@
       margin-left: 15px
     }
 
+    /* Media queries */
+    @media only screen and (max-width: 834px) {
+      .left {
+        flex: 294px;
+      }
+
+      .right {
+        flex: 540px;
+      }
+    }
+
+    @media only screen and (max-width: 740px) {
+      .left {
+        display: none;
+      }
+
+      .right .right-content .login-form-container .header-logo {
+        margin: 18px 0 29px 0;
+      }
+
+      .right .right-content .login-form-container .enter-email {
+        margin-bottom: 16px;
+      }
+
+      .right .right-content .login-form-container .first-time-info {
+        margin: 24px 0 25px 0;
+      }
+
+      .right .right-content .waiting-magic-link-container .logo-container {
+        margin: 18px 0 29px 0;
+      }
+    }
+
     /* Shared */
     .button {
       height: 50px;
       border: 1px solid #000000;
-      box-sizing: border-box;
       border-radius: 100px;
-      margin: 0 0 14px 0;
       cursor: pointer;
     }
 
@@ -332,11 +391,23 @@
         })
       }
 
-      const Message = (props) => {
-        const { text, backgroundColor } = props
+      const Error = (props) => {
+        const { text } = props
+
+        const DangerIcon = () => {
+          return (
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M13.4 6.99998C13.4 10.5346 10.5346 13.4 6.99998 13.4C3.46535 13.4 0.599976 10.5346 0.599976 6.99998C0.599976 3.46535 3.46535 0.599976 6.99998 0.599976C10.5346 0.599976 13.4 3.46535 13.4 6.99998ZM7.79998 10.2C7.79998 10.6418 7.4418 11 6.99998 11C6.55815 11 6.19998 10.6418 6.19998 10.2C6.19998 9.75815 6.55815 9.39997 6.99998 9.39997C7.4418 9.39997 7.79998 9.75815 7.79998 10.2ZM6.99998 2.99998C6.55815 2.99998 6.19998 3.35815 6.19998 3.79998V6.99998C6.19998 7.4418 6.55815 7.79998 6.99998 7.79998C7.4418 7.79998 7.79998 7.4418 7.79998 6.99998V3.79998C7.79998 3.35815 7.4418 2.99998 6.99998 2.99998Z" fill="#E96980"/>
+            </svg>
+          )
+        }
+
         return (
-          <div style={{ backgroundColor: backgroundColor }}>
-            {text}
+          <div className='error'>
+            <DangerIcon />
+            <div className='error-text'>
+              {text}
+            </div>
           </div>
         )
       }
@@ -344,7 +415,7 @@
       const Form = (props) => {
         const { onMagicLinkSent } = props
 
-        const [email, setUserEmail] = useState('')
+        const [email, setEmail] = useState('')
         const [isLoading, setIsLoading] = useState(false)
         const [error, setError] = useState('')
 
@@ -361,6 +432,18 @@
               const errorMessage = err.description || err.error_description || 'An error has ocurred'
               setError(errorMessage)
             })
+        }
+
+        const loginWithMagicLink = () => {
+          const emailRegex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}')
+          const emailValid = emailRegex.test(email)
+
+          setError()
+          if (!emailValid) {
+            setError('Please enter a valid email address')
+            return
+          }
+          requestMagicLink()
         }
 
         const loginWithTwitter = () => {
@@ -512,26 +595,31 @@
         }
 
         return (
-          <div className="login-form-container text-center">
+          <div className="login-form-container">
             <HeaderLogo />
             {/* Passwordless login */}
             <div className="login-passwordless">
               <div className="title">
                 Sign in
               </div>
-              <div className="enter-email"> Enter your email to receive a sign in link.</div>
+              <div className="enter-email">Enter your email to receive a sign in link.</div>
               <input
                 type="email"
                 placeholder="john@poap.io"
-                className="border-box full-width textbox"
+                className={`border-box full-width textbox ${error && 'error-border'}`}
                 onChange={(e) => {
-                  setUserEmail(e.target.value)
+                  setError()
+                  setEmail(e.target.value)
                 }}
               />
-              {error && <Message text={error} backgroundColor="red" />}
+              {error && <Error text={error} />}
+              <div className='info full-width'>
+                Hey! If you have already issued drops before,
+                use the same email you used in POAP admin.
+              </div>
               <Button
                 text="Sign in with email"
-                onClick={requestMagicLink}
+                onClick={loginWithMagicLink}
                 disabled={isLoading}
                 additionalClass="button-passwordless"
               />
@@ -590,7 +678,7 @@
       }
 
       const WaitingMagicLink = (props) => {
-        const { userEmail } = props
+        const { email } = props
 
         const [isLoading, setIsLoading] = useState(false)
         const [error, setError] = useState('')
@@ -598,7 +686,7 @@
         const requestMagicLink = () => {
           setError()
           setIsLoading(true)
-          sendMagicLink(userEmail)
+          sendMagicLink(email)
             .then((res) => {
               setIsLoading(false)
             })
@@ -693,7 +781,6 @@
                 <path d="M48.0645 135.897L46.2757 136.73L48.3684 130.973L52.3561 132.439L50.2566 138.174L49.4788 136.511C49.3983 136.333 49.2709 136.179 49.1103 136.067C48.9553 135.959 48.7749 135.893 48.587 135.876C48.4291 135.84 48.2646 135.841 48.1075 135.882C48.0927 135.886 48.0783 135.891 48.0645 135.897Z" stroke="white" strokeWidth="0.5" strokeMiterlimit="10" strokeLinejoin="round"/>
                 <path fillRule="evenodd" clipRule="evenodd" d="M53.5686 116.94L54.1837 117.278C54.5235 117.47 54.9113 117.572 55.3063 117.571H56.0137C56.4095 117.569 56.7991 117.666 57.1423 117.855C57.4856 118.043 57.7701 118.315 57.9666 118.643L58.3203 119.216C58.5093 119.548 58.7916 119.822 59.1353 120.009L59.7504 120.347C60.093 120.536 60.3773 120.808 60.5744 121.135C60.7715 121.463 60.8745 121.834 60.873 122.212V122.872C60.8745 123.254 60.9806 123.629 61.1806 123.959L61.5343 124.532C61.7312 124.86 61.8348 125.232 61.8348 125.611C61.8348 125.99 61.7312 126.362 61.5343 126.69L61.1806 127.263C60.9831 127.589 60.8772 127.958 60.873 128.335V129.011C60.8745 129.388 60.7715 129.76 60.5744 130.087C60.3773 130.415 60.093 130.687 59.7504 130.875L59.1353 131.213C58.7956 131.398 58.5141 131.667 58.3203 131.991L57.9666 132.579C57.7677 132.905 57.4826 133.176 57.1399 133.364C56.7973 133.552 56.4089 133.651 56.0137 133.651H55.3063C54.9113 133.651 54.5235 133.752 54.1837 133.944L53.5686 134.282C53.2273 134.47 52.8401 134.569 52.446 134.569C52.0519 134.569 51.6648 134.47 51.3234 134.282L50.7083 133.944C50.3686 133.752 49.9808 133.651 49.5858 133.651H48.8784C48.4854 133.65 48.0997 133.55 47.7597 133.362C47.4196 133.174 47.1373 132.904 46.9408 132.579L46.5871 131.991C46.3834 131.669 46.0978 131.402 45.7567 131.213L45.1416 130.875C44.799 130.687 44.5148 130.415 44.3177 130.087C44.1205 129.76 44.0175 129.388 44.019 129.011V128.335C44.0209 127.96 43.9202 127.59 43.7269 127.263L43.3732 126.69C43.1763 126.362 43.0727 125.99 43.0727 125.611C43.0727 125.232 43.1763 124.86 43.3732 124.532L43.7269 123.959C43.9222 123.628 44.0229 123.253 44.019 122.872V122.212C44.0175 121.834 44.1205 121.463 44.3177 121.135C44.5148 120.808 44.799 120.536 45.1416 120.347L45.7567 120.009C46.1018 119.819 46.3883 119.546 46.5871 119.216L46.9408 118.643C47.1349 118.316 47.4167 118.045 47.7572 117.856C48.0978 117.668 48.4848 117.57 48.8784 117.571H49.5858C49.9808 117.572 50.3686 117.47 50.7083 117.278L51.3234 116.94C51.6648 116.752 52.0519 116.653 52.446 116.653C52.8401 116.653 53.2273 116.752 53.5686 116.94Z" fill="white" stroke="#2E2A47" strokeWidth="0.5" strokeMiterlimit="10"/>
               </svg>
-
             )
           }
 
@@ -818,7 +905,6 @@
                 <path fillRule="evenodd" clipRule="evenodd" d="M60.8167 99.116C58.3883 101.544 58.3442 104.545 58.3442 105.119C58.3442 104.545 58.3 101.544 55.8716 99.116C53.4432 96.6884 50.4408 96.6442 49.8668 96.6442C50.4408 96.6442 53.4432 96.6001 55.8716 94.1724C58.2559 91.7447 58.3442 88.7432 58.3442 88.1694C58.3442 88.7432 58.3883 91.7447 60.8167 94.1724C63.2451 96.6001 66.2475 96.6442 66.8215 96.6442C66.2475 96.6442 63.2451 96.6884 60.8167 99.116Z" fill="white"/>
                 <path d="M126.318 89.0829L126.317 89.0833C124.929 89.8656 123.278 90.0418 121.727 89.5799C120.176 89.1183 118.852 88.0575 118.04 86.6335C117.471 85.6397 117.18 84.5128 117.199 83.3781C117.218 82.2432 117.549 81.1441 118.155 80.2055C118.338 79.9226 118.627 79.7277 118.958 79.6651C119.288 79.6027 119.627 79.678 119.903 79.8659L126.318 89.0829ZM126.318 89.0829C127.705 88.2981 128.705 86.9752 129.105 85.41C129.504 83.8458 129.27 82.1676 128.46 80.7418M126.318 89.0829L128.46 80.7418M122.008 78.3434C121.886 78.5019 121.832 78.7053 121.859 78.9092C121.872 79.01 121.905 79.1079 121.955 79.1972C122.005 79.2866 122.071 79.3656 122.15 79.4299L128.025 80.9886C127.471 80.0124 126.652 79.2142 125.671 78.6939C124.69 78.1736 123.59 77.9543 122.509 78.0635C122.31 78.0843 122.129 78.1849 122.008 78.3434ZM122.008 78.3434L121.611 78.0387C121.406 78.3055 121.32 78.6427 121.363 78.9737L121.363 78.9742C121.385 79.1384 121.437 79.2969 121.518 79.4412C121.599 79.5855 121.706 79.7135 121.835 79.8178C121.963 79.9221 122.111 80.0013 122.269 80.0499L122.415 79.5718M122.008 78.3434L121.611 78.0387C121.817 77.7712 122.122 77.6012 122.457 77.5663L122.459 77.5661C123.64 77.4468 124.839 77.6868 125.905 78.2523C126.972 78.8176 127.86 79.6839 128.46 80.7418M128.46 80.7418L122.415 79.5718M122.415 79.5718L122.269 80.0499C122.428 80.0984 122.595 80.1153 122.761 80.0985L122.761 80.0985C123.446 80.0286 124.147 80.1668 124.775 80.4996C125.404 80.8325 125.93 81.3446 126.286 81.9724C126.766 82.8192 126.901 83.8102 126.668 84.7257C126.435 85.6401 125.853 86.4048 125.055 86.8572C124.255 87.3081 123.297 87.4133 122.389 87.1427C121.48 86.8718 120.697 86.2462 120.215 85.4001L120.214 85.399C119.877 84.8098 119.705 84.1436 119.716 83.476C119.727 82.8086 119.921 82.1675 120.273 81.6235L120.273 81.6232C120.364 81.4831 120.425 81.3264 120.453 81.1625M122.415 79.5718L119.836 80.4947L120.25 80.2157C120.343 80.353 120.409 80.5071 120.444 80.6692C120.479 80.8313 120.482 80.9989 120.453 81.1625M120.453 81.1625L119.961 81.0757L120.453 81.1625Z" fill="#F59DB6" stroke="#5E58A3" strokeMiterlimit="10"/>
               </svg>
-
             )
           }
 
@@ -840,7 +926,7 @@
 
         return (
           <div className="waiting-magic-link-container">
-            {!error && !isLoading && <EmailSent email={userEmail} />}
+            {!error && !isLoading && <EmailSent email={email} />}
             {error && !isLoading && <EmailSentError />}
             <div className="resend-email-button-container">
               <button
@@ -852,7 +938,6 @@
                 <div className="resend-email-button-text">Resend email</div>
               </button>
             </div>
-
           </div>
         )
       }
@@ -869,14 +954,14 @@
         }
 
         if (!webAuth) {
-          return <Message text='Error initializing Webauth' backgroundColor='red' />
+          return <Error text='Oops... Something went wrong' />
         }
 
         return (
           <div className="container">
             <div className="left">
             </div>
-            <div className="right">
+            <div className="right text-center">
               <div className="right-content">
                 {/* 'Go back' button */}
                 {userEmail && <GoBackButton onClick={handleGoBackClick} />}
@@ -887,14 +972,14 @@
                 {/* 'Wait for magic link' section */}
                 {userEmail && <WaitingMagicLink userEmail={userEmail} />}
               </div>
-              <div className="right-footer text-center">
+              <div className="right-footer">
                 By signing in you agree to our <a href="#" className="terms-and-conditions">Terms & conditions</a>
               </div>
             </div>
           </div>
         )
       }
-
+            
       ReactDOM.render(<Login />, document.getElementById('root'))
     </script>
   </body>
