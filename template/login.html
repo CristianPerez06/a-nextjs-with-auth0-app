@@ -27,30 +27,30 @@
     /* Container & Columns */
     .container {
       width: 100%;
-      height: 100%;
+      height: auto;
       display: flex;
     }
 
-    .left {
+    .left-column {
       flex: 50%;
       background: #EFEEFF;
     }
 
-    .right {
+    .right-column {
       flex: 50%;
       display: flex;
       flex-direction: column;
     }
 
-    .left-content {
+    .left-column-content {
       display: block;
     }
 
-    .right-content {
+    .right-column-content {
       flex: 1;
     }
 
-    .right-footer {
+    .right-column-footer {
       padding: 10px 0;
       border-top: 1px solid #DDDAFF;
       font-weight: 400;
@@ -392,7 +392,7 @@
       }
 
       const Error = (props) => {
-        const { text } = props
+        const { text = 'Oops... Something went wrong' } = props
 
         const DangerIcon = () => {
           return (
@@ -425,7 +425,7 @@
           sendMagicLink(email)
             .then((res) => {
               setIsLoading(false)
-              onMagicLinkSent(email)
+              onMagicLinkSent?.(email)
             })
             .catch((err) => {
               setIsLoading(false)
@@ -571,12 +571,19 @@
         }
 
         const Button = (props) => {
-          const { icon, text, onClick, disabled, additionalClass } = props
+          const {
+            icon,
+            text = 'Click me',
+            onClick,
+            type = 'button',
+            disabled = false,
+            variant
+          } = props
 
           return (
             <button
-              type="button"
-              className={`button full-width ${additionalClass}`}
+              type={type}
+              className={`button full-width ${variant}`}
               disabled={disabled}
               onClick={onClick}
             >
@@ -599,34 +606,37 @@
             <HeaderLogo />
             {/* Passwordless login */}
             <div className="login-passwordless">
-              <div className="title">
-                Sign in
-              </div>
-              <div className="enter-email">Enter your email to receive a sign in link.</div>
-              <input
-                type="email"
-                placeholder="john@poap.io"
-                className={`border-box full-width textbox ${error && 'error-border'}`}
-                onChange={(e) => {
-                  setError()
-                  setEmail(e.target.value)
-                }}
-              />
-              {error && <Error text={error} />}
-              <div className='info full-width'>
-                Hey! If you have already issued drops before,
-                use the same email you used in POAP admin.
-              </div>
-              <Button
-                text="Sign in with email"
-                onClick={loginWithMagicLink}
-                disabled={isLoading}
-                additionalClass="button-passwordless"
-              />
-              <div className="first-time-info">
-                <div>If this is your first time signing in,</div>
-                <div>it will create a new account.</div>
-              </div>
+              <form target="_blank">
+                <div className="title">
+                  Sign in
+                </div>
+                <div className="enter-email">Enter your email to receive a sign in link.</div>
+                <input
+                  type="email"
+                  placeholder="john@poap.io"
+                  className={`border-box full-width textbox ${error && 'error-border'}`}
+                  onChange={(e) => {
+                    setError()
+                    setEmail(e.target.value)
+                  }}
+                />
+                {error && <Error text={error} />}
+                <div className='info full-width'>
+                  Hey! If you have already issued drops before,
+                  use the same email you used in POAP admin.
+                </div>
+                <Button
+                  type='submit'
+                  text="Sign in with email"
+                  onClick={loginWithMagicLink}
+                  disabled={isLoading}
+                  variant="button-passwordless"
+                />
+                <div className="first-time-info">
+                  <div>If this is your first time signing in,</div>
+                  <div>it will create a new account.</div>
+                </div>
+              </form>
             </div>
             {/* Divider */}
             <div className="divider">
@@ -641,14 +651,14 @@
                 text="Google"
                 onClick={loginWithGoogle}
                 disabled={isLoading}
-                additionalClass="button-social"
+                variant="button-social"
               />
               <Button
                 icon={<TwitterIcon />}
                 text="Twitter"
                 onClick={loginWithTwitter}
                 disabled={isLoading}
-                additionalClass="button-social"
+                variant="button-social"
               />
             </div>
           </div>
@@ -678,7 +688,7 @@
       }
 
       const WaitingMagicLink = (props) => {
-        const { email } = props
+        const { userEmail } = props
 
         const [isLoading, setIsLoading] = useState(false)
         const [error, setError] = useState('')
@@ -686,7 +696,7 @@
         const requestMagicLink = () => {
           setError()
           setIsLoading(true)
-          sendMagicLink(email)
+          sendMagicLink(userEmail)
             .then((res) => {
               setIsLoading(false)
             })
@@ -926,7 +936,7 @@
 
         return (
           <div className="waiting-magic-link-container">
-            {!error && !isLoading && <EmailSent email={email} />}
+            {!error && !isLoading && <EmailSent email={userEmail} />}
             {error && !isLoading && <EmailSentError />}
             <div className="resend-email-button-container">
               <button
@@ -953,26 +963,26 @@
           setUserEmail(email)
         }
 
-        if (!webAuth) {
-          return <Error text='Oops... Something went wrong' />
-        }
+        // if (!webAuth) {
+        //   return <Error text='Oops... Something went wrong' />
+        // }
 
         return (
           <div className="container">
-            <div className="left">
+            <div className="left-column">
             </div>
-            <div className="right text-center">
-              <div className="right-content">
+            <div className="right-column">
+              <div className="right-column-content text-center">
                 {/* 'Go back' button */}
-                {userEmail && <GoBackButton onClick={handleGoBackClick} />}
+                {userEmail && <GoBackButton onClick={handleGoBackClick}/>}
 
                 {/* 'Login' form */}
-                {!userEmail && <Form onMagicLinkSent={handleEmailSent} />}
+                {!userEmail && <Form  onMagicLinkSent={handleEmailSent}/>}
 
                 {/* 'Wait for magic link' section */}
                 {userEmail && <WaitingMagicLink userEmail={userEmail} />}
               </div>
-              <div className="right-footer">
+              <div className="right-column-footer text-center">
                 By signing in you agree to our <a href="#" className="terms-and-conditions">Terms & conditions</a>
               </div>
             </div>
